@@ -30,4 +30,17 @@ class User{
 
         return $stmt;
     }
+
+
+    public function read_single_byId($id){
+
+        $query = "SELECT * FROM `users` WHERE id=$id";
+
+        $stmt = $this->conn->prepare($query);
+
+
+        $stmt->execute();
+
+        return $stmt;
+    }
 }
