@@ -28,3 +28,15 @@ $user->firstname = $data->firstname;
 $user->lastname = $data->lastname;
 $user->email = $data->email;
 $user->password = $data->password;
+
+if(
+    !empty($user->firstname) &&
+    !empty($user->email) &&
+    !empty($user->password) &&
+    $user->create()
+){
+    echo json_encode(array("message"=>"User was created."));
+
+}else{
+    echo json_encode(array("message"=>"User cannot be created."));
+}
