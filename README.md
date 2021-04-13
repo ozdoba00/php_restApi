@@ -8,9 +8,8 @@ Already created:
 - Connection with db
 - Findining users by ID
 - Finding users by Name
-
-
-In the future:
 - Finding users by Last Name
 - POST requests -> Adding new users
+
+In the future:
 - [...] others
