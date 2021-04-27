@@ -32,11 +32,21 @@ $user->password = $data->password;
 if(
     !empty($user->firstname) &&
     !empty($user->email) &&
-    !empty($user->password) &&
-    $user->create()
+    !empty($user->password)
 ){
-    echo json_encode(array("message"=>"User was created."));
+    if(
+        !$user->emailExists()&&
+         $user->create()
+    ){
+            echo json_encode(array("message"=>"User was created."));
+    }else{
+            echo json_encode(array("message"=> "This email is already taken!"));
+    }
+    
 
 }else{
-    echo json_encode(array("message"=>"User cannot be created."));
+    echo json_encode(array("message"=>"Make sure that forms are not empty!"));
 }
+
+// !$user->emailExists() &&
+//     $user->create()

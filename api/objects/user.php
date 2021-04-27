@@ -58,6 +58,49 @@ class User{
         return false;
     }
 
+
+    public function update(){
+        //if password needs to be udpated
+
+        $password_set=!empty($this->password) ? ", password =:password" : "";
+
+        $query = "UPDATE " . $this->table_name . "
+                SET
+                    firstname = :firstname,
+                    lastname = :lastname,
+                    email = :email
+                    {$password_set}
+                WHERE id = :id";
+
+         $stmt = $this->conn->prepare($query);
+
+        $this->firstname=htmlspecialchars(strip_tags($this->firstname));
+        $this->lastname=htmlspecialchars(strip_tags($this->lastname));
+        $this->email=htmlspecialchars(strip_tags($this->email));
+
+        // echo json_encode(array(
+        //     "message" => $stmt
+        // ));
+                
+        $stmt->bindParam(":firstname", $this->firstname);
+        $stmt->bindParam(":lastname", $this->lastname);
+        $stmt->bindParam(":email", $this->email);
+
+        if(!empty($this->password)){
+            $this->password=htmlentities(strip_tags($this->password));
+            $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
+            $stmt->bindParam(":password", $password_hash);
+        }
+
+        $stmt->bindParam(":id", $this->id);
+
+        if($stmt->execute())
+            return true;
+
+        return false;
+
+    }
+
     //Check if given email exists in the database
     function emailExists(){
         $query = "SELECT id, firstname, lastname, password
